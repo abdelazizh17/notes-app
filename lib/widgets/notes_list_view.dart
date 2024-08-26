@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/helper/app_color.dart';
 import 'package:notes_app/widgets/custom_notes_item.dart';
 
 class NotesListView extends StatelessWidget {
@@ -9,9 +10,11 @@ class NotesListView extends StatelessWidget {
     return ListView.builder(
       itemCount: 7,
       itemBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
-          child: CustomNotesItem(),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 5),
+          child: CustomNotesItem(
+            color: AppColors.pastelColors[index],
+          ),
         );
       },
     );
