@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
-import 'package:notes_app/helper/app_color.dart';
 import 'package:notes_app/model/note_model.dart';
 import 'package:notes_app/widgets/custom_notes_item.dart';
 
@@ -23,7 +22,7 @@ class NotesListView extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: CustomNotesItem(
-                  color: AppColors.pastelColors[index],
+                  noteModel: notes[index],
                 ),
               );
             },

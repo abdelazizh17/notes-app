@@ -4,6 +4,7 @@ import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:notes_app/model/note_model.dart';
 import 'package:notes_app/widgets/custom_bottom.dart';
 import 'package:notes_app/widgets/custom_text_field.dart';
+import 'package:intl/intl.dart';
 
 class AddNoteForm extends StatefulWidget {
   const AddNoteForm({
@@ -18,8 +19,10 @@ class _AddNoteFormState extends State<AddNoteForm> {
   String? title, subTitle;
   final GlobalKey<FormState> formKey = GlobalKey();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  DateTime now = DateTime.now();
   @override
   Widget build(BuildContext context) {
+    
     return Form(
       key: formKey,
       autovalidateMode: autovalidateMode,
@@ -54,24 +57,25 @@ class _AddNoteFormState extends State<AddNoteForm> {
           BlocBuilder<AddNoteCubit, AddNoteState>(
             builder: (context, state) {
               return CustomButton(
-                      isLoading: state is AddNoteLoading ? true : false,
-                      onTap: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
-                          var noteModel = NoteModel(
-                            title: title!,
-                            subTitle: subTitle!,
-                            date: DateTime.now().toString(),
-                            color: Colors.blue.value,
-                          );
-                          BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
-                        } else {
-                          setState(() {
-                            autovalidateMode = AutovalidateMode.always;
-                          });
-                        }
-                      },
+                isLoading: state is AddNoteLoading ? true : false,
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+                    var noteModel = NoteModel(
+                      title: title!,
+                      subTitle: subTitle!,
+                      date: formattedDate.toString(),
+                      color: Colors.blue.value,
                     );
+                    BlocProvider.of<AddNoteCubit>(context).addNote(noteModel);
+                  } else {
+                    setState(() {
+                      autovalidateMode = AutovalidateMode.always;
+                    });
+                  }
+                },
+              );
             },
           ),
           const SizedBox(
