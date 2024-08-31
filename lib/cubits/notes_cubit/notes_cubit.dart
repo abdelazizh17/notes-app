@@ -6,15 +6,11 @@ import 'package:notes_app/model/note_model.dart';
 
 part 'notes_state.dart';
 
-class NotesCubit extends Cubit<NotesCubitState> {
-  NotesCubit() : super(NotesCubitInitial());
-
+class NotesCubit extends Cubit<NotesState> {
+  NotesCubit() : super(NotesInitial());
+  List<NoteModel>? notes;
   fetchAllNotes() {
-    try {
-      var noteBox = Hive.box<NoteModel>(kNotesBox);
-      emit(NotesCubitSuccess(noteBox.values.toList()));
-    } on Exception catch (e) {
-      emit(NotesCubitFailure(e.toString()));
-    }
+    var noteBox = Hive.box<NoteModel>(kNotesBox);
+    notes = noteBox.values.toList();
   }
 }
