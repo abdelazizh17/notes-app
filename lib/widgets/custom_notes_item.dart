@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:notes_app/cubits/notes_cubit/notes_cubit.dart';
 import 'package:notes_app/model/note_model.dart';
 import 'package:notes_app/views/edit_note_view.dart';
 
 class CustomNotesItem extends StatelessWidget {
-  const CustomNotesItem({super.key,  required this.noteModel});
+  const CustomNotesItem({super.key, required this.noteModel});
 
   final NoteModel noteModel;
   @override
@@ -28,8 +30,8 @@ class CustomNotesItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListTile(
-              title:  Text(
-               noteModel.title,
+              title: Text(
+                noteModel.title,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 26,
@@ -49,7 +51,10 @@ class CustomNotesItem extends StatelessWidget {
                 ),
               ),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  noteModel.delete();
+                  BlocProvider.of<NotesCubit>(context).fetchAllNotes();
+                },
                 icon: const Icon(
                   FontAwesomeIcons.trash,
                   color: Colors.black,
